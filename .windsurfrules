@@ -1,0 +1,5 @@
+## Development Environment Rules
+
+1. Always use Python environment in `.venv`
+2. Use only standard libraries and libraries specified in `requirements.txt`
+3. Do not introduce any additional dependencies without explicit approval

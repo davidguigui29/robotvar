@@ -1,0 +1,12 @@
+# Python environment
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Keep directory structure but ignore contents
+fonts/*
+!fonts/.gitkeep
+
+screenshot/*
+!screenshot/.gitkeep

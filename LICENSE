@@ -1,0 +1,35 @@
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   Copyright 2025 RoboTvar Project Contributors
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+------------------------------------------------------------------------------
+This software includes and modifies fonts from the following projects:
+
+1. Roboto Font
+   Copyright 2011 Google Inc. All Rights Reserved.
+   Licensed under the Apache License, Version 2.0
+   Source: https://github.com/googlefonts/roboto-2
+
+2. TossFace Font
+   Copyright Viva Republica
+   Licensed under TossFace License
+   Source: https://github.com/toss/tossface
+   License: https://toss.im/tossface/copyright
+
+The modifications and combinations of these fonts are made in accordance with
+their respective licenses. Users of this software must comply with all terms
+of the original font licenses.
