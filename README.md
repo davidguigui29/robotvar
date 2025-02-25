@@ -30,10 +30,10 @@ maintaining proper alignment, spacing, and style consistency across your Kivy ap
 
 - Seamless text and emoji display in Kivy Label widgets
 - Multiple font styles for flexible typography:
-  - [RoboTvar-Regular.ttf](https://github.com/patrikflorek/robotvar/blob/main/merged/RoboTvar-Regular.ttf)
-  - [RoboTvar-Bold.ttf](https://github.com/patrikflorek/robotvar/blob/main/merged/RoboTvar-Bold.ttf)
-  - [RoboTvar-Italic.ttf](https://github.com/patrikflorek/robotvar/blob/main/merged/RoboTvar-Italic.ttf)
-  - [RoboTvar-BoldItalic.ttf](https://github.com/patrikflorek/robotvar/blob/main/merged/RoboTvar-BoldItalic.ttf)
+  - [RoboTvar-Regular.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Regular.ttf)
+  - [RoboTvar-Bold.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Bold.ttf)
+  - [RoboTvar-Italic.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Italic.ttf)
+  - [RoboTvar-BoldItalic.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-BoldItalic.ttf)
 - Automatic downloading of Roboto and TossFace fonts from their respective GitHub repositories
 - Font merging with proper glyph conversion and metrics preservation
 - Interactive Kivy-based test application for font preview
