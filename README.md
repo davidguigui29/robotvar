@@ -38,6 +38,7 @@ maintaining proper alignment, spacing, and style consistency across your Kivy ap
 - Font merging with proper glyph conversion and metrics preservation
 - Interactive Kivy-based test application for font preview
 - Automatic screenshot capture of test results
+- Font analysis tools for comparing character sets between fonts
 
 ## Installation
 
@@ -91,6 +92,18 @@ python -m robotvar --test-app
 The test application automatically saves screenshots to `robotvar/screenshots/` when closed. 
 Screenshots include samples of text and emojis in all four created font variants with different 
 sizes and colors.
+
+### Compare Fonts
+
+Compare character sets between two font files:
+```bash
+python -m robotvar --compare-fonts --font1 /path/to/first/font.ttf --font2 /path/to/second/font.ttf
+```
+
+This will display a list of characters (glyphs) that are present in both fonts. This is particularly useful when:
+- Analyzing font compatibility before merging
+- Verifying the contents of merged fonts
+- Checking for potential character conflicts or overlaps
 
 ### Full Process
 

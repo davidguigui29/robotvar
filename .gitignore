@@ -5,8 +5,8 @@ __pycache__/
 *$py.class
 
 # Keep directory structure but ignore contents
-fonts/*
-!fonts/.gitkeep
+robotvar/fonts/*
+!robotvar/fonts/.gitkeep
 
-screenshot/*
-!screenshot/.gitkeep
+robotvar/screenshots/*
+!robotvar/screenshots/.gitkeep

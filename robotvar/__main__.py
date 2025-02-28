@@ -28,6 +28,21 @@ def parse_args():
         help="Run Kivy test application to preview the fonts",
     )
     parser.add_argument(
+        "--compare-fonts",
+        action="store_true",
+        help="Compare character sets between two fonts",
+    )
+    parser.add_argument(
+        "--font1",
+        type=Path,
+        help="First font file for comparison",
+    )
+    parser.add_argument(
+        "--font2",
+        type=Path,
+        help="Second font file for comparison",
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
         help="Custom output directory for merged fonts",
@@ -40,13 +55,27 @@ def main():
     args = parse_args()
 
     # Validate arguments
-    exclusive_args = sum([args.download_only, args.merge_only, args.test_app])
+    exclusive_args = sum(
+        [args.download_only, args.merge_only, args.test_app, args.compare_fonts]
+    )
     if exclusive_args > 1:
         print(
-            "Error: Can only specify one of: --download-only, --merge-only, --test-app",
+            "Error: Can only specify one of: --download-only, --merge-only, --test-app, --compare-fonts",
             file=sys.stderr,
         )
         sys.exit(1)
+
+    if args.compare_fonts:
+        if not args.font1 or not args.font2:
+            print(
+                "Error: Both --font1 and --font2 must be specified with --compare-fonts",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+        from .scripts.compare_sources import compare_fonts
+
+        compare_fonts(args.font1, args.font2)
+        return
 
     try:
         if args.test_app:
@@ -63,7 +92,6 @@ def main():
                 from .scripts.merge import merge_all_fonts
 
                 merge_all_fonts(output_dir=args.output_dir)
-
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
