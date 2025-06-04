@@ -1,172 +1,177 @@
 # RoboTvar
 
-RoboTvar is a Python project that creates custom fonts by merging Roboto font variants with 
-TossFace emoji font. The resulting fonts combine the elegance of Roboto typography with the 
-expressive TossFace emojis.
+**RoboTvar** is a Python project that creates custom fonts by merging Roboto font variants with  
+the **Twemoji emoji font**. The resulting fonts combine the elegance of Roboto typography with  
+the expressive and visually balanced Twemoji emojis.
 
-![image](screenshot.png)
-
-## Motivation
-
-This project addresses a problem which might arise when attempting to display text with emojis in a 
-single `Label` widget. Typically, mixing regular text with emojis in a `kivy.uix.label.Label`'s 
-`text` attribute might require more complex markup workarounds or multiple widgets. RoboTvar solves 
-this by creating unified fonts that contain both text and emoji glyphs, allowing you to:
+> 🧠 Why? Because mixing emojis with text in a single `Label` in Kivy is otherwise tricky, often requiring workarounds or custom rendering. RoboTvar solves this with seamless, merged fonts.
 
 ```python
 from kivy.uix.label import Label
 
-# Now you can simply do this:
 label = Label(
     text="Hello World! 👋 🌍",
     font_name="RoboTvar"
 )
 ```
 
-The merged fonts ensure that both text and emojis render correctly within a single Label widget, 
-maintaining proper alignment, spacing, and style consistency across your Kivy application.
+This lets both text and emojis render correctly and cleanly — no more hacks or broken layouts.
 
-## Features
+---
 
-- Seamless text and emoji display in Kivy Label widgets
-- Multiple font styles for flexible typography:
-  - [RoboTvar-Regular.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Regular.ttf)
-  - [RoboTvar-Bold.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Bold.ttf)
-  - [RoboTvar-Italic.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Italic.ttf)
-  - [RoboTvar-BoldItalic.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-BoldItalic.ttf)
-- Automatic downloading of Roboto and TossFace fonts from their respective GitHub repositories
-- Font merging with proper glyph conversion and metrics preservation
-- Interactive Kivy-based test application for font preview
-- Automatic screenshot capture of test results
-- Font analysis tools for comparing character sets between fonts
+## ✨ Features
 
-## Installation
+- ✅ Seamless emoji + text rendering in Kivy Labels
+- ✅ Includes four font variants:
+  - RoboTvar-Regular.ttf
+  - RoboTvar-Bold.ttf
+  - RoboTvar-Italic.ttf
+  - RoboTvar-BoldItalic.ttf
+- ✅ Auto-downloads Roboto + Twemoji from GitHub
+- ✅ Retries downloads with backoff
+- ✅ Handles COLR/CPAL emoji rendering (color!)
+- ✅ Kivy test app with screenshot capture
+- ✅ Command-line interface for full workflow
+- ✅ Font comparison tools for debugging/analysis
 
-1. Clone the repository:
+---
+
+## 🛠 Installation
+
 ```bash
 git clone https://github.com/patrikflorek/robotvar.git
 cd robotvar
-```
 
-2. Create and activate a virtual environment:
-```bash
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
 
-3. Install dependencies:
-```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+---
 
-RoboTvar package provides a command-line interface with several operations:
+## 🚀 Usage
 
-### Download Fonts
+### 🔹 Download Fonts
 
-Download required fonts from GitHub repositories:
 ```bash
 python -m robotvar --download-only
 ```
 
-### Merge Fonts
+> Automatically fetches Roboto from Google Fonts and Twemoji from Mozilla's GitHub releases.
 
-Merge downloaded fonts to create RoboTvar variants:
+---
+
+### 🔹 Merge Fonts
+
 ```bash
 python -m robotvar --merge-only
 ```
 
-You can specify a custom output directory:
+To customize output location:
+
 ```bash
-python -m robotvar --merge-only --output-dir /path/to/output
+python -m robotvar --merge-only --output-dir ./my_fonts
 ```
 
-### Test Application
+---
 
-Launch the interactive test application to preview the fonts:
+### 🔹 Launch Test App
+
 ```bash
-python -m robotvar --test-app   
+python -m robotvar --test-app
 ```
 
-The test application automatically saves screenshots to `robotvar/screenshots/` when closed. 
-Screenshots include samples of text and emojis in all four created font variants with different 
-sizes and colors.
+Renders samples and automatically saves screenshots in `robotvar/screenshots/`.
 
-### Compare Fonts
+---
 
-Compare character sets between two font files:
+### 🔹 Compare Fonts
+
 ```bash
-python -m robotvar --compare-fonts --font1 /path/to/first/font.ttf --font2 /path/to/second/font.ttf
+python -m robotvar --compare-fonts --font1 path/to/font1.ttf --font2 path/to/font2.ttf
 ```
 
-This will display a list of characters (glyphs) that are present in both fonts. This is particularly useful when:
-- Analyzing font compatibility before merging
-- Verifying the contents of merged fonts
-- Checking for potential character conflicts or overlaps
+Use this to check:
+- Which characters differ
+- Whether emoji glyphs were properly merged
 
-### Full Process
+---
 
-Run the complete process (download and merge) in one command:
+### 🔹 Full Pipeline
+
 ```bash
 python -m robotvar
 ```
 
-## Project Structure
+This downloads and merges everything in one go.
+
+---
+
+## 📁 Project Structure
 
 ```
-RoboTvar/
+robotvar/
 ├── .venv/                     # Python virtual environment
 ├── requirements.txt           # Python dependencies
 ├── robotvar/                  # Main package directory
 │   ├── __init__.py            # Package initialization
-│   ├── __main__.py            # CLI entry point
+│   ├── __main__.py            # CLI entry point and argument parser
 │   ├── fonts/                 # Downloaded font files
-│   │   ├── roboto/            # Roboto font variants
-│   │   └── tossface/          # TossFace emoji font
-│   ├── merged/                # Output directory for merged fonts
-│   └── scripts/               # Package scripts
-│       ├── __init__.py        # Scripts initialization
-│       ├── download.py        # Font downloading functionality
-│       ├── merge.py           # Font merging functionality
-│       └── test_app.py        # Kivy test application
-└── README.md                  # This file
+│   │   ├── roboto/            # Roboto font variants (Regular, Bold, etc.)
+│   │   └── twemoji/           # Twemoji emoji font from Mozilla
+│   ├── merged/                # Output directory for merged font files
+│   └── scripts/               # Python scripts for internal operations
+│       ├── __init__.py        # Script package initializer
+│       ├── download.py        # Downloads Roboto and Twemoji fonts
+│       ├── merge.py           # Merges glyphs and color layers into unified fonts
+│       └── test_app.py        # Kivy app for rendering preview and screenshots
+└── README.md                  # Project documentation
+
 ```
 
-## Dependencies
+---
+
+## 📦 Dependencies
 
 - Python 3.8+
-- fonttools==4.56.0
-- Kivy==2.3.1
-- httpx==0.28.1
+- `fonttools==4.56.0`
+- `httpx==0.28.1`
+- `kivy==2.3.1`
 
-## Development
+Install them with:
 
-This project was primarily developed through AI-assisted pair programming using Claude 3.5 Sonnet, 
-an AI coding agent by Anthropic. The AI agent helped with:
+```bash
+pip install -r requirements.txt
+```
 
-- Project structure and organization
-- Implementation of font downloading and merging functionality
-- Creation of the Kivy test application
-- Documentation, README, and license generation
+---
 
-The development focused on achieving the first fully functional version of the package. While the 
-current implementation successfully accomplishes its core objectives, there is plenty of room for 
-code improvements, optimizations, and additional features in future iterations.
+## 🤝 Contributing
 
-## Contributing
+We welcome your contributions!
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork this repo
+2. Create your feature branch: `git checkout -b feat/my-feature`
+3. Commit your changes: `git commit -m "Add my feature"`
+4. Push it: `git push origin feat/my-feature`
+5. Open a Pull Request 🚀
 
-## License
+---
 
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+## 📜 License
 
-## Acknowledgments
+Apache 2.0 — see [LICENSE](LICENSE)
 
-- [Google Fonts](https://github.com/googlefonts/roboto-2) for the Roboto font family
-- [Toss](https://github.com/toss/tossface) for the TossFace emoji font
+---
+
+## 🙏 Acknowledgments
+
+- [Google Fonts](https://github.com/googlefonts/roboto-2) — Roboto
+- [Mozilla Twemoji](https://github.com/mozilla/twemoji-colr) — Twemoji color font
+- ❤️ Thanks to [Anthropic Claude 3.5 Sonnet](https://www.anthropic.com) and [OpenAI GPT-4](https://openai.com) for co-development support
+
+---
+
+This README reflects all recent updates:  
+✅ TossFace removed · ✅ Twemoji added · ✅ Font merging improved · ✅ CLI updated.
