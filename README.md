@@ -146,7 +146,7 @@ robotvar/
 
 This project was originally developed using Claude 3.5 Sonnet by Anthropic.  
 **Enhancements including Twemoji support, robust download logic, glyph scaling with TransformPen,  
-and this README update were contributed by [@davidguigui29].**
+and this README update were contributed by [GUIGUI David](https://github.com/davidguigui29).**
 
 ## Contributing
 
