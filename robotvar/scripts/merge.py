@@ -109,11 +109,13 @@ def merge_fonts(base_font_path: Path, emoji_font_path: Path, output_path: Path) 
         if table.isUnicode():
             format12.cmap.update(table.cmap)
 
+    # Add emoji font mappings ONLY if code point is not already mapped
     for table in emoji_font["cmap"].tables:
         if table.isUnicode():
             for code, name in table.cmap.items():
-                if name in new_glyphs:
+                if name in new_glyphs and code not in format12.cmap:
                     format12.cmap[code] = name
+
 
     new_cmap.tables = [format12]
     base_font["cmap"] = new_cmap
