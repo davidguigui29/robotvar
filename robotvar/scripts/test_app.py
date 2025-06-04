@@ -67,13 +67,13 @@ KV = """
                 color: 0.2, 0.6, 1, 1
 
             Label:
-                text: "Hello World! 👋 🌍 1234"
+                text: "\u2714 Hello World! 👋 🌍 1234"
                 font_size: 48
                 font_name: "RoboTvar"
                 color: 0.2, 1, 0.4, 1
 
             Label:
-                text: "Crown 👑 and clutch bag 👝"
+                text: "\u2714 Crown 👑 and clutch bag 👝"
                 font_size: 24
                 font_name: "RoboTvar"
                 color: 1, 0.6, 0.2, 1
@@ -97,14 +97,14 @@ KV = """
                 color: 0.2, 0.6, 1, 1
 
             Label:
-                text: "Hello World! 👋 🌍"
+                text: "\u2714 Hello World! 👋 🌍"
                 font_size: 48
                 font_name: "RoboTvar"
                 bold: True
                 color: 0.2, 1, 0.4, 1
 
             Label:
-                text: "Lab coat 🥼 and flat shoe 🥿"
+                text: " \u2714 Lab coat 🥼 and flat shoe 🥿"
                 font_size: 24
                 font_name: "RoboTvar"
                 bold: True
@@ -129,14 +129,14 @@ KV = """
                 color: 0.2, 0.6, 1, 1
 
             Label:
-                text: "Hello World! 👋 🌍"
+                text: "\u2714 Hello World! 👋 🌍"
                 font_size: 48
                 font_name: "RoboTvar"
                 italic: True
                 color: 0.2, 1, 0.4, 1
 
             Label:
-                text: "Rocket ship 🚀 and flexed biceps 💪"
+                text: "\u2714 Rocket ship 🚀 and flexed biceps 💪"
                 font_size: 24
                 font_name: "RoboTvar"
                 italic: True
@@ -162,7 +162,7 @@ KV = """
                 color: 0.2, 0.6, 1, 1
 
             Label:
-                text: "Hello World! 👋 🌍"
+                text: "\u2714 Hello World! 👋 🌍"
                 font_size: 48
                 font_name: "RoboTvar"
                 bold: True
@@ -170,7 +170,7 @@ KV = """
                 color: 0.2, 1, 0.4, 1
 
             Label:
-                text: "Bouquet 💐 and butterfly 🦋"
+                text: "\u2714 Bouquet 💐 and butterfly 🦋"
                 font_size: 24
                 font_name: "RoboTvar"
                 bold: True

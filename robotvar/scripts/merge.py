@@ -18,6 +18,7 @@ from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.pens.transformPen import TransformPen
 from pathlib import Path
 from typing import Optional
+from .merge_roboto_and_dejavu import merge_roboto_dejavu_fonts
 
 
 def scale_glyf_glyph(glyph_set, glyph_name, scale) -> Optional[TTGlyphPen]:
@@ -132,15 +133,17 @@ def merge_fonts(base_font_path: Path, emoji_font_path: Path, output_path: Path) 
 
 
 def merge_all_fonts(output_dir: Optional[Path] = None) -> None:
+    merge_roboto_dejavu_fonts()
+    
     """Merge all Roboto font variants with a Twemoji-style emoji font."""
     package_dir = Path(__file__).parent.parent
-    roboto_dir = package_dir / "fonts" / "roboto"
+    roboto_dir = package_dir / "fonts" / "roboto_dejavu"
     emoji_dir = package_dir / "fonts" / "twemoji"
     output_dir = output_dir or (package_dir / "merged")
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    roboto_fonts = list(roboto_dir.glob("Roboto-*.ttf"))
+    roboto_fonts = list(roboto_dir.glob("*.ttf"))
     if not roboto_fonts:
         raise FileNotFoundError("No Roboto font variants found in fonts/roboto/")
 
@@ -152,7 +155,7 @@ def merge_all_fonts(output_dir: Optional[Path] = None) -> None:
 
     for roboto_font in roboto_fonts:
         variant_name = roboto_font.stem
-        output_name = f"RoboTvar-{variant_name[7:]}.ttf"
+        output_name = f"RoboTvar-{variant_name[9:]}.ttf"
         output_path = output_dir / output_name
 
         print(f"\n📦 Processing {variant_name}...")

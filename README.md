@@ -37,6 +37,7 @@ maintaining proper alignment, spacing, and style consistency across your Kivy ap
 - Automatic downloading of Roboto and **Twemoji** fonts from their official GitHub sources
 - Retry logic and redirect handling for more robust font downloading
 - Font merging with proper glyph conversion, scaling, and metrics preservation
+- Unicode and symbol support via **DejaVuSans** integration
 - Interactive Kivy-based test application for font preview and screenshot capture
 - Font analysis tools for comparing character sets between fonts
 
@@ -125,12 +126,15 @@ robotvar/
 │   ├── __main__.py            # CLI entry point
 │   ├── fonts/                 # Downloaded font files
 │   │   ├── roboto/            # Roboto font variants
+│   │   ├── dejavu/            # DejaVuSans font (for Unicode/symbol support)
 │   │   └── twemoji/           # Twemoji emoji font (replaces TossFace)
 │   ├── merged/                # Output directory for merged fonts
 │   └── scripts/               # Package scripts
 │       ├── __init__.py        # Scripts initialization
+│       ├── compare_sources.py        # 
 │       ├── download.py        # Font downloading with redirect support
-│       ├── merge.py           # Font merging with scaling and COLR support
+│       ├── merge_roboto_and_dejavu.py        # Merge Roboto and DejaVuSans
+│       ├── merge.py           # Font merging with scaling and COLR support: Merge the result of Roboto and DejaVuSans with Twemoji
 │       └── test_app.py        # Kivy test application
 └── README.md                  # Project documentation
 ```
@@ -157,7 +161,7 @@ current implementation successfully accomplishes its core objectives, there is p
 code improvements, optimizations, and additional features in future iterations.
 
 **Enhancements including Twemoji support, robust download logic, glyph scaling with TransformPen,  
-and this README update were contributed by [GUIGUI David](https://github.com/davidguigui29).**
+DejaVuSans Unicode integration, and this README update were contributed by [GUIGUI David](https://github.com/davidguigui29).**
 
 ## Contributing
 
@@ -173,5 +177,6 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## Acknowledgments
 
-- [Google Fonts](https://github.com/googlefonts/roboto-2) — Roboto font family
-- [Mozilla Twemoji](https://github.com/mozilla/twemoji-colr) — Twemoji emoji font
+- [Google Fonts](https://github.com/googlefonts/roboto-2) — Roboto font family  
+- [Mozilla Twemoji](https://github.com/mozilla/twemoji-colr) — Twemoji emoji font  
+- [DejaVu Fonts](https://dejavu-fonts.github.io/) — DejaVuSans font for wide Unicode coverage  

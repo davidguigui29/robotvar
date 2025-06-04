@@ -6,6 +6,8 @@ This module provides command-line interface for the RoboTvar font creation proce
 import argparse
 import sys
 from pathlib import Path
+import traceback
+
 
 
 def parse_args():
@@ -92,9 +94,12 @@ def main():
                 from .scripts.merge import merge_all_fonts
 
                 merge_all_fonts(output_dir=args.output_dir)
+
     except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+        print("Error occurred:")
+        traceback.print_exc()
         sys.exit(1)
+
 
 
 if __name__ == "__main__":

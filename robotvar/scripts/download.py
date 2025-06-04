@@ -25,6 +25,10 @@ TWEMOJI_URL = (
     "https://github.com/mozilla/twemoji-colr/releases/latest/download/Twemoji.Mozilla.ttf"
 )
 
+DEJAVU_URL = (
+    "https://github.com/davidguigui29/dejavu-fonts/raw/refs/heads/feature/ttf-fonts/fonts/DejaVuSans.ttf"
+)
+
 
 import asyncio
 
@@ -78,8 +82,9 @@ async def download_all_fonts() -> None:
     roboto_dir = fonts_dir / "roboto"
     tossface_dir = fonts_dir / "tossface"
     twemoji_dir = fonts_dir / "twemoji"
+    dejavu_dir = fonts_dir / "dejavu"
 
-    for directory in [fonts_dir, roboto_dir, tossface_dir, twemoji_dir]:
+    for directory in [fonts_dir, roboto_dir, tossface_dir, twemoji_dir, dejavu_dir]:
         directory.mkdir(parents=True, exist_ok=True)
 
     async with httpx.AsyncClient() as client:
@@ -103,8 +108,15 @@ async def download_all_fonts() -> None:
             client, TWEMOJI_URL, twemoji_dir / "Twemoji.Mozilla.ttf"
         )
 
+        dejavu_task = download_font(
+            client,
+            DEJAVU_URL,
+            dejavu_dir / "DejaVuSans.ttf"
+        )
+
+
         # Wait for all downloads to complete
-        await asyncio.gather(twemoji_task, *roboto_tasks)
+        await asyncio.gather(dejavu_task, twemoji_task, *roboto_tasks)
 
 
 def download_fonts() -> None:
