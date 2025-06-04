@@ -144,7 +144,18 @@ robotvar/
 
 ## Development
 
-This project was originally developed using Claude 3.5 Sonnet by Anthropic.  
+This project was primarily developed through AI-assisted pair programming using Claude 3.5 Sonnet, 
+an AI coding agent by Anthropic. The AI agent helped with:
+
+- Project structure and organization
+- Implementation of font downloading and merging functionality
+- Creation of the Kivy test application
+- Documentation, README, and license generation
+
+The development focused on achieving the first fully functional version of the package. While the 
+current implementation successfully accomplishes its core objectives, there is plenty of room for 
+code improvements, optimizations, and additional features in future iterations.
+
 **Enhancements including Twemoji support, robust download logic, glyph scaling with TransformPen,  
 and this README update were contributed by [GUIGUI David](https://github.com/davidguigui29).**
 
