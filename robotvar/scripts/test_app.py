@@ -67,7 +67,7 @@ KV = """
                 color: 0.2, 0.6, 1, 1
 
             Label:
-                text: "\u2714 Hello World! 👋 🌍 1234"
+                text: "\u2714 Hello World! 👋 🌍 12"
                 font_size: 48
                 font_name: "RoboTvar"
                 color: 0.2, 1, 0.4, 1

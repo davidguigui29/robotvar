@@ -1,8 +1,7 @@
 # RoboTvar
 
 RoboTvar is a Python project that creates custom fonts by merging Roboto font variants with  
-**Twemoji emoji font**. The resulting fonts combine the elegance of Roboto typography with the  
-expressive and well-structured Twemoji emojis.
+**Twemoji emoji font** or **TossFace emoji font**. The resulting fonts combine the elegance of Roboto typography with expressive emoji support.
 
 ![image](screenshot.png)
 
@@ -34,12 +33,19 @@ maintaining proper alignment, spacing, and style consistency across your Kivy ap
   - [RoboTvar-Bold.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Bold.ttf)
   - [RoboTvar-Italic.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-Italic.ttf)
   - [RoboTvar-BoldItalic.ttf](https://github.com/patrikflorek/robotvar/blob/main/robotvar/merged/RoboTvar-BoldItalic.ttf)
-- Automatic downloading of Roboto and **Twemoji** fonts from their official GitHub sources
+- **Supports both Twemoji and TossFace emoji fonts**  
+  - Default merge uses TossFace for backward compatibility  
+  - Use `--merge-twemoji` to merge with Twemoji instead
+- Automatic downloading of Roboto, TossFace, and Twemoji fonts from their official GitHub sources
 - Retry logic and redirect handling for more robust font downloading
 - Font merging with proper glyph conversion, scaling, and metrics preservation
 - Unicode and symbol support via **DejaVuSans** integration
 - Interactive Kivy-based test application for font preview and screenshot capture
 - Font analysis tools for comparing character sets between fonts
+- **New reset options:**  
+  - `--delete` deletes the merged fonts folder  
+  - `--delete-all` deletes all font folders in the fonts directory  
+  - Both options clean up generated or downloaded files
 
 ## Installation
 
@@ -66,7 +72,7 @@ RoboTvar provides a command-line interface with several operations:
 
 ### Download Fonts
 
-Download required fonts from GitHub repositories (Roboto and Twemoji):
+Download required fonts from GitHub repositories (Roboto, TossFace, and Twemoji):
 ```bash
 python -m robotvar --download-only
 ```
@@ -75,14 +81,31 @@ python -m robotvar --download-only
 
 ### Merge Fonts
 
-Merge downloaded fonts to create RoboTvar variants:
+Merge downloaded fonts to create RoboTvar variants (default: TossFace):
 ```bash
 python -m robotvar --merge-only
+```
+
+Merge with Twemoji instead:
+```bash
+python -m robotvar --merge-twemoji
 ```
 
 You can specify a custom output directory:
 ```bash
 python -m robotvar --merge-only --output-dir /path/to/output
+```
+
+### Reset/Cleanup
+
+Delete the merged fonts folder:
+```bash
+python -m robotvar --delete
+```
+
+Delete all font folders in the fonts directory (full cleanup):
+```bash
+python -m robotvar --delete-all
 ```
 
 ### Test Application
@@ -127,16 +150,19 @@ robotvar/
 │   ├── fonts/                 # Downloaded font files
 │   │   ├── roboto/            # Roboto font variants
 │   │   ├── dejavu/            # DejaVuSans font (for Unicode/symbol support)
-│   │   └── twemoji/           # Twemoji emoji font (replaces TossFace)
+│   │   ├── tossface/          # TossFace emoji font
+│   │   └── twemoji/           # Twemoji emoji font
 │   ├── merged/                # Output directory for merged fonts
 │   └── scripts/               # Package scripts
-│       ├── __init__.py        # Scripts initialization
-│       ├── compare_sources.py        # 
-│       ├── download.py        # Font downloading with redirect support
-│       ├── merge_roboto_and_dejavu.py        # Merge Roboto and DejaVuSans
-│       ├── merge.py           # Font merging with scaling and COLR support: Merge the result of Roboto and DejaVuSans with Twemoji
-│       └── test_app.py        # Kivy test application
-└── README.md                  # Project documentation
+│       ├── __init__.py                           # Scripts initialization
+│       ├── compare_sources.py
+│       ├── download.py                           # Font downloading with redirect support
+│       ├── merge_roboto_and_dejavu.py            # Merge Roboto and DejaVuSans
+│       ├── merge.py                       # Font merging(Roboto with TossFace emoji font)
+│       ├── merge_robot_and_twemoji.py     # Font merging(Roboto with Twemoji font)
+│       ├── reset.py                       # Delete generated folders/files
+│       └── test_app.py                           # Kivy test application
+└── README.md
 ```
 
 ## Dependencies
@@ -161,7 +187,7 @@ current implementation successfully accomplishes its core objectives, there is p
 code improvements, optimizations, and additional features in future iterations.
 
 **Enhancements including Twemoji support, robust download logic, glyph scaling with TransformPen,  
-DejaVuSans Unicode integration, and this README update were contributed by [GUIGUI David](https://github.com/davidguigui29).**
+DejaVuSans Unicode integration, reset/cleanup options, and this README update were contributed by [GUIGUI David](https://github.com/davidguigui29).**
 
 ## Contributing
 
@@ -179,4 +205,5 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 - [Google Fonts](https://github.com/googlefonts/roboto-2) — Roboto font family  
 - [Mozilla Twemoji](https://github.com/mozilla/twemoji-colr) — Twemoji emoji font  
-- [DejaVu Fonts](https://dejavu-fonts.github.io/) — DejaVuSans font for wide Unicode coverage  
+- [Toss](https://github.com/toss/tossface) — TossFace emoji font  
+- [DejaVu Fonts](https://dejavu-fonts.github.io/) — DejaVuSans font for wide Unicode coverage

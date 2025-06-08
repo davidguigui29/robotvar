@@ -95,9 +95,9 @@ async def download_all_fonts() -> None:
         ]
 
         # Download TossFace font
-        # tossface_task = download_font(
-        #     client, TOSSFACE_URL, tossface_dir / "TossFaceFontWeb.otf"
-        # )
+        tossface_task = download_font(
+            client, TOSSFACE_URL, tossface_dir / "TossFaceFontWeb.otf"
+        )
 
         # # Wait for all downloads to complete
         # await asyncio.gather(tossface_task, *roboto_tasks)
@@ -115,8 +115,9 @@ async def download_all_fonts() -> None:
         )
 
 
+
         # Wait for all downloads to complete
-        await asyncio.gather(dejavu_task, twemoji_task, *roboto_tasks)
+        await asyncio.gather(tossface_task, dejavu_task, twemoji_task, *roboto_tasks)
 
 
 def download_fonts() -> None:
