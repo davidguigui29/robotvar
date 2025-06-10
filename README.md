@@ -36,7 +36,7 @@ maintaining proper alignment, spacing, and style consistency across your Kivy ap
 - **Supports both Twemoji and TossFace emoji fonts**  
   - Default merge uses TossFace for backward compatibility  
   - Use `--merge-twemoji` to merge with Twemoji instead
-- Automatic downloading of Roboto, TossFace, and Twemoji fonts from their official GitHub sources
+- Automatic downloading of Roboto, TossFace, DejaVuSans, and Twemoji fonts from their official GitHub sources
 - Retry logic and redirect handling for more robust font downloading
 - Font merging with proper glyph conversion, scaling, and metrics preservation
 - Unicode and symbol support via **DejaVuSans** integration
@@ -72,7 +72,7 @@ RoboTvar provides a command-line interface with several operations:
 
 ### Download Fonts
 
-Download required fonts from GitHub repositories (Roboto, TossFace, and Twemoji):
+Download required fonts from GitHub repositories (Roboto, TossFace, DejaVuSans, and Twemoji):
 ```bash
 python -m robotvar --download-only
 ```
@@ -153,15 +153,15 @@ robotvar/
 │   │   ├── tossface/          # TossFace emoji font
 │   │   └── twemoji/           # Twemoji emoji font
 │   ├── merged/                # Output directory for merged fonts
+│   ├── screenshots            # Output directory for screenshots taken when you close test_app
 │   └── scripts/               # Package scripts
-│       ├── __init__.py                           # Scripts initialization
-│       ├── compare_sources.py
-│       ├── download.py                           # Font downloading with redirect support
-│       ├── merge_roboto_and_dejavu.py            # Merge Roboto and DejaVuSans
+│       ├── __init__.py                    # Scripts initialization
+│       ├── compare_sources.py             # Compare two fonts
+│       ├── download.py                    # Font downloading with redirect support
 │       ├── merge.py                       # Font merging(Roboto with TossFace emoji font)
-│       ├── merge_robot_and_twemoji.py     # Font merging(Roboto with Twemoji font)
+│       ├── merge_dejavu_and_twemoji.py    # Font merging(DejaVuSans with Twemoji font)
 │       ├── reset.py                       # Delete generated folders/files
-│       └── test_app.py                           # Kivy test application
+│       └── test_app.py                    # Kivy test application
 └── README.md
 ```
 

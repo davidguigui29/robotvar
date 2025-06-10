@@ -75,14 +75,14 @@ def main():
 
     # Handle delete/reset actions first
     if args.delete or args.delete_all:
-        from .scripts.reset import delete_merged_folder, delete_all_fonts, delete_screenshots_folder
+        from .scripts.reset import delete_merged_folder, delete_all_fonts, delete_screenshots_folder_content
         if args.delete:
             merged_dir = args.output_dir
             delete_merged_folder(merged_dir)
         if args.delete_all:
             fonts_dir = Path(__file__).parent / "fonts"
             screenshots_folder = Path(__file__).parent / "screenshots"
-            delete_screenshots_folder(screenshots_folder)
+            delete_screenshots_folder_content(screenshots_folder)
             delete_merged_folder(args.output_dir)
             delete_all_fonts(fonts_dir)
         return
@@ -121,7 +121,7 @@ def main():
 
             if not args.download_only:
                 if args.merge_twemoji:
-                    from .scripts.merge_robot_and_twemoji import merge_all_fonts as merge_twemoji_fonts
+                    from .scripts.merge_dejavu_and_twemoji import merge_all_fonts as merge_twemoji_fonts
                     merge_twemoji_fonts(output_dir=args.output_dir)
                 else:
                     from .scripts.merge import merge_all_fonts as merge_tossface_fonts

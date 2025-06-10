@@ -20,11 +20,14 @@ def delete_all_fonts(fonts_dir: Path):
     else:
         print("Fonts directory does not exist.")
 
-
-def delete_screenshots_folder(screenshots_dir: Path):
+# Delete all files in the screenshots folder if it exists except .gitkeep
+def delete_screenshots_folder_content(screenshots_dir: Path):
     if screenshots_dir.exists() and screenshots_dir.is_dir():
-        print(f"Deleting screenshots folder: {screenshots_dir}")
-        shutil.rmtree(screenshots_dir)
-        print("Screenshots folder deleted.")
+        print(f"Deleting screenshots folder content: {screenshots_dir}")
+        for child in screenshots_dir.iterdir():
+            if child.is_file() and child.name != ".gitkeep":
+                print(f"Deleting: {child}")
+                child.unlink()
+        print("Screenshots folder content cleaned (except .gitkeep).")
     else:
         print("Screenshots folder does not exist.")

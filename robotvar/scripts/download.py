@@ -25,9 +25,13 @@ TWEMOJI_URL = (
     "https://github.com/mozilla/twemoji-colr/releases/latest/download/Twemoji.Mozilla.ttf"
 )
 
-DEJAVU_URL = (
-    "https://github.com/davidguigui29/dejavu-fonts/raw/refs/heads/feature/ttf-fonts/fonts/DejaVuSans.ttf"
-)
+DEJAVU_BASE_URL = "https://github.com/davidguigui29/dejavu-fonts/raw/feature/ttf-fonts/fonts"
+DEJAVU_FONTS = {
+    "DejaVuSans.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans.ttf",
+    "DejaVuSans-Bold.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans-Bold.ttf",
+    "DejaVuSans-Oblique.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans-Oblique.ttf",
+    "DejaVuSans-BoldOblique.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans-BoldOblique.ttf",
+}
 
 
 import asyncio
@@ -108,16 +112,15 @@ async def download_all_fonts() -> None:
             client, TWEMOJI_URL, twemoji_dir / "Twemoji.Mozilla.ttf"
         )
 
-        dejavu_task = download_font(
-            client,
-            DEJAVU_URL,
-            dejavu_dir / "DejaVuSans.ttf"
-        )
-
+        # Download DejaVu fonts
+        dejavu_tasks = [
+            download_font(client, url, dejavu_dir / filename)
+            for filename, url in DEJAVU_FONTS.items()
+        ]
 
 
         # Wait for all downloads to complete
-        await asyncio.gather(tossface_task, dejavu_task, twemoji_task, *roboto_tasks)
+        await asyncio.gather(tossface_task, twemoji_task, *roboto_tasks, *dejavu_tasks)
 
 
 def download_fonts() -> None:
