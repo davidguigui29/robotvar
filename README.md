@@ -186,8 +186,7 @@ The development focused on achieving the first fully functional version of the p
 current implementation successfully accomplishes its core objectives, there is plenty of room for 
 code improvements, optimizations, and additional features in future iterations.
 
-**Enhancements including Twemoji support, robust download logic, glyph scaling with TransformPen,  
-DejaVuSans Unicode integration, reset/cleanup options, and this README update were contributed by [GUIGUI David](https://github.com/davidguigui29).**
+
 
 ## Contributing
 
