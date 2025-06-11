@@ -21,24 +21,62 @@ ROBOTO_FONTS = {
 TOSSFACE_URL = (
     "https://raw.githubusercontent.com/toss/tossface/main/dist/TossFaceFontWeb.otf"
 )
+TWEMOJI_URL = (
+    "https://github.com/mozilla/twemoji-colr/releases/latest/download/Twemoji.Mozilla.ttf"
+)
+
+DEJAVU_BASE_URL = "https://github.com/davidguigui29/dejavu-fonts/raw/feature/ttf-fonts/fonts"
+DEJAVU_FONTS = {
+    "DejaVuSans.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans.ttf",
+    "DejaVuSans-Bold.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans-Bold.ttf",
+    "DejaVuSans-Oblique.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans-Oblique.ttf",
+    "DejaVuSans-BoldOblique.ttf": f"{DEJAVU_BASE_URL}/DejaVuSans-BoldOblique.ttf",
+}
 
 
-async def download_font(client: httpx.AsyncClient, url: str, output_path: Path) -> None:
-    """Download a font file from the given URL.
+import asyncio
 
-    Args:
-        client: Async HTTP client
-        url: URL to download from
-        output_path: Where to save the downloaded font
-    """
-    try:
-        response = await client.get(url)
-        response.raise_for_status()
-        output_path.write_bytes(response.content)
-        print(f"Downloaded: {output_path.name}")
-    except httpx.HTTPError as e:
-        print(f"Failed to download {output_path.name}: {e}")
-        raise
+async def download_font(client: httpx.AsyncClient, url: str, output_path: Path, retries: int = 3) -> None:
+    """Download a font file from the given URL with retries and progress messages."""
+    attempt = 0
+    while attempt < retries:
+        try:
+            print(f"📥 Starting download: {output_path.name} (attempt {attempt + 1})")
+            response = await client.get(
+                url,
+                follow_redirects=True,
+                headers={"Accept": "application/octet-stream"},
+                timeout=20.0,
+            )
+            response.raise_for_status()
+            output_path.write_bytes(response.content)
+            print(f"✅ Downloaded: {output_path.name}")
+            return
+        except Exception as e:
+            attempt += 1
+            print(f"⚠️  Failed: {output_path.name} (attempt {attempt}) — {e}")
+            if attempt < retries:
+                await asyncio.sleep(2 * attempt)  # exponential backoff
+            else:
+                print(f"❌ Giving up on: {output_path.name}")
+                raise
+
+# async def download_font(client: httpx.AsyncClient, url: str, output_path: Path) -> None:
+#     """Download a font file from the given URL.
+
+#     Args:
+#         client: Async HTTP client
+#         url: URL to download from
+#         output_path: Where to save the downloaded font
+#     """
+#     try:
+#         response = await client.get(url)
+#         response.raise_for_status()
+#         output_path.write_bytes(response.content)
+#         print(f"Downloaded: {output_path.name}")
+#     except httpx.HTTPError as e:
+#         print(f"Failed to download {output_path.name}: {e}")
+#         raise
 
 
 async def download_all_fonts() -> None:
@@ -47,8 +85,10 @@ async def download_all_fonts() -> None:
     fonts_dir = Path(__file__).parent.parent / "fonts"
     roboto_dir = fonts_dir / "roboto"
     tossface_dir = fonts_dir / "tossface"
+    twemoji_dir = fonts_dir / "twemoji"
+    dejavu_dir = fonts_dir / "dejavu"
 
-    for directory in [fonts_dir, roboto_dir, tossface_dir]:
+    for directory in [fonts_dir, roboto_dir, tossface_dir, twemoji_dir, dejavu_dir]:
         directory.mkdir(parents=True, exist_ok=True)
 
     async with httpx.AsyncClient() as client:
@@ -63,8 +103,24 @@ async def download_all_fonts() -> None:
             client, TOSSFACE_URL, tossface_dir / "TossFaceFontWeb.otf"
         )
 
+        # # Wait for all downloads to complete
+        # await asyncio.gather(tossface_task, *roboto_tasks)
+        
+        
+        # Download Twemoji font
+        twemoji_task = download_font(
+            client, TWEMOJI_URL, twemoji_dir / "Twemoji.Mozilla.ttf"
+        )
+
+        # Download DejaVu fonts
+        dejavu_tasks = [
+            download_font(client, url, dejavu_dir / filename)
+            for filename, url in DEJAVU_FONTS.items()
+        ]
+
+
         # Wait for all downloads to complete
-        await asyncio.gather(tossface_task, *roboto_tasks)
+        await asyncio.gather(tossface_task, twemoji_task, *roboto_tasks, *dejavu_tasks)
 
 
 def download_fonts() -> None:
