@@ -18,7 +18,10 @@ from kivy.core.text import LabelBase
 from kivy.lang import Builder
 
 # Set window size
-Window.size = (1024, 768)
+# Window.size = (1024, 768)
+
+# Maximize the window (works on most platforms)
+Window.maximize()
 
 class RoboTvarTestApp(App):
     """Test application for RoboTvar fonts."""
@@ -35,23 +38,53 @@ class RoboTvarTestApp(App):
         self.available_families = []
 
     def build(self):
-        """Build and return the root widget."""
         self._register_fonts()
-        # self.title = "Roboto and TossFace Showcase"
+        # Determine the RoboTvar tab label based on the font family name
+        robovar_tab_label = "RoboTvar"
+        if "RoboTvar" in self.available_families:
+            robovar_regular = self.font_dir / "RoboTvar-Regular.ttf"
+            if robovar_regular.exists():
+                family_name = self.get_font_name(robovar_regular)
+                if family_name == "Roboto":
+                    robovar_tab_label = "Roboto+TossFace"
+                else:
+                    robovar_tab_label = "DejaVu+Twemoji"
         # Dynamically build the KV string based on available families
+        # tabs = ""
+        # if "RoboTvar" in self.available_families:
+        #     tabs += f"    TabbedPanelItem:\n"
+        #     tabs += f"        text: \"{robovar_tab_label}\"\n"
+        #     tabs += "        background_color: 0.6, 0.2, 0.8, 1\n"
+        #     tabs += "        FontShowcase:\n"
+        #     tabs += "            font_name: \"RoboTvar\"\n"
+        # if "DejaVuTwemoji" in self.available_families:
+        #     tabs += "    TabbedPanelItem:\n"
+        #     tabs += "        text: \"DejaVu+Twemoji\"\n"
+        #     tabs += "        background_color: 0.6, 0.2, 0.8, 1\n"
+        #     tabs += "        FontShowcase:\n"
+        #     tabs += "            font_name: \"DejaVuTwemoji\"\n"
+
         tabs = ""
         if "RoboTvar" in self.available_families:
-            tabs += "    TabbedPanelItem:\n"
-            tabs += "        text: \"Roboto+TossFace\"\n"
+            robovar_regular = self.font_dir / "RoboTvar-Regular.ttf"
+            robovar_family = self.get_font_name(robovar_regular) if robovar_regular.exists() else ""
+            robovar_tab_label = "Roboto+TossFace" if robovar_family == "Roboto" else "DejaVu+Twemoji"
+            robovar_title = "Roboto and TossFace Showcase" if robovar_family == "Roboto" else "DejaVu and Twemoji Showcase"
+            tabs += f"    TabbedPanelItem:\n"
+            tabs += f"        text: \"{robovar_tab_label}\"\n"
             tabs += "        background_color: 0.6, 0.2, 0.8, 1\n"
             tabs += "        FontShowcase:\n"
             tabs += "            font_name: \"RoboTvar\"\n"
+            tabs += f"            title: \"{robovar_title}\"\n"
+        
+        # If DejaVuTwemoji is available, add its tab
         if "DejaVuTwemoji" in self.available_families:
-            tabs += "    TabbedPanelItem:\n"
-            tabs += "        text: \"DejaVu+Twemoji\"\n"
+            tabs += f"    TabbedPanelItem:\n"
+            tabs += f"        text: \"DejaVu+Twemoji\"\n"
             tabs += "        background_color: 0.6, 0.2, 0.8, 1\n"
             tabs += "        FontShowcase:\n"
             tabs += "            font_name: \"DejaVuTwemoji\"\n"
+            tabs += f"            title: \"DejaVu and Twemoji Showcase\"\n"
 
         kv = f"""
 <FontShowcase@BoxLayout>:
@@ -59,6 +92,7 @@ class RoboTvarTestApp(App):
     padding: 20
     spacing: 10
     font_name: ''
+    title: ''
     canvas.before:
         Color:
             rgba: 0.05, 0.05, 0.05, 1
@@ -72,7 +106,7 @@ class RoboTvarTestApp(App):
 
         Label:
             id: title_label
-            text: app.title
+            text: root.title
             # text: "Roboto and TossFace Showcase" if root.font_name=="RoboTvar" else "DejaVu and Twemoji Showcase"
             font_size: 64
             font_name: root.font_name
@@ -253,6 +287,7 @@ TabbedPanel:
                 break
             dejavu_kwargs[f"fn_{variant.lower()}"] = str(font_path)
         if all_dejavu_exist:
+            
             LabelBase.register(name="DejaVuTwemoji", **dejavu_kwargs)
             self.available_families.append("DejaVuTwemoji")
 
