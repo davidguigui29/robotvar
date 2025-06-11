@@ -200,6 +200,14 @@ code improvements, optimizations, and additional features in future iterations.
 4. Push to the branch (`git push origin feature/amazing-feature`)  
 5. Open a Pull Request 🚀
 
+## Contributors
+
+We gratefully acknowledge the contributions of:
+
+- [David Guigui](https://github.com/davidguigui29) - Twemoji integration, font merging improvements, GUI and CLI enhancements
+- [Patrik Florek](https://github.com/patrikflorek) - Project creator and maintainer
+
+
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
