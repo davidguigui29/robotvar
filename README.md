@@ -3,7 +3,7 @@
 RoboTvar is a Python project that creates custom fonts by merging Roboto font variants with  
 **Twemoji emoji font** or **TossFace emoji font**. The resulting fonts combine the elegance of Roboto typography with expressive emoji support.
 
-![image](screenshot.png)
+![image](screenshot.gif)
 
 ## Motivation
 
@@ -91,6 +91,10 @@ Merge with Twemoji instead:
 python -m robotvar --merge-twemoji
 ```
 
+Merge with Twemoji with the --showcase argument to create the showcase fonts DejaVuTwemoji-*.ttf. That way you can see a second tab in the test application with DejaVuSans and Twemoji fonts. This is useful if you want to see how the DejaVuSans font looks with Twemoji emojis and how Roboto fonts look with TossFace emojis:
+```bash
+python -m robotvar --merge-twemoji --showcase
+
 You can specify a custom output directory:
 ```bash
 python -m robotvar --merge-only --output-dir /path/to/output
@@ -129,7 +133,7 @@ python -m robotvar --compare-fonts --font1 /path/to/first/font.ttf --font2 /path
 This will display a list of characters (glyphs) that are present in both fonts. Useful for:
 - Analyzing font compatibility before merging
 - Verifying contents of merged fonts
-- Checking for potential character conflicts
+- Checking for potential character conflicts or overlaps
 
 ### Full Process
 

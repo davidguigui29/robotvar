@@ -1,3 +1,4 @@
+import os
 from fontTools.ttLib import TTFont, newTable
 from fontTools.ttLib.tables._c_m_a_p import CmapSubtable
 from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -96,13 +97,56 @@ def merge_fonts(base_font_path: Path, emoji_font_path: Path, output_path: Path) 
     base_font.save(output_path)
     print("✅ Font merge completed!")
 
-def merge_all_fonts(output_dir: Optional[Path] = None) -> None:
+
+def merge_all_fonts(showcase=False, output_dir: Optional[Path] = None) -> None:
     """Merge all DejaVuSans font variants with Twemoji into RoboTvar-compatible fonts."""
+    from fontTools.ttLib import TTFont
+
     package_dir = Path(__file__).parent.parent
     dejavu_dir = package_dir / "fonts" / "dejavu"
     twemoji_dir = package_dir / "fonts" / "twemoji"
     output_dir = output_dir or (package_dir / "merged")
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    # If showcase, ensure RoboTvar-*.ttf exist and are Roboto, else call merge.py's merge_all_fonts
+    if showcase:
+        required_variants = [
+            "RoboTvar-Regular.ttf",
+            "RoboTvar-Bold.ttf",
+            "RoboTvar-Italic.ttf",
+            "RoboTvar-BoldItalic.ttf",
+        ]
+        missing = [f for f in required_variants if not (output_dir / f).exists()]
+        need_regen = False
+        if not missing:
+            # Check font family name
+            for fname in required_variants:
+                font_path = output_dir / fname
+                try:
+                    font = TTFont(font_path)
+                    family_name = ""
+                    for record in font["name"].names:
+                        if record.nameID == 1:
+                            family_name = record.toUnicode()
+                            break
+                    if family_name != "Roboto":
+                        need_regen = True
+                        break
+                except Exception:
+                    need_regen = True
+                    break
+            if need_regen:
+                print("RoboTvar fonts exist but are not Roboto. Deleting and regenerating them for showcase...")
+                for fname in required_variants:
+                    fpath = output_dir / fname
+                    if fpath.exists():
+                        os.remove(fpath)
+                missing = required_variants  # Force regeneration
+
+        if missing:
+            print("Some RoboTvar fonts are missing for showcase mode. Generating them first...")
+            from .merge import merge_all_fonts as merge_tossface_fonts
+            merge_tossface_fonts(output_dir=output_dir)
 
     emoji_font = next(twemoji_dir.glob("*.ttf"))
     dejavu_fonts = list(dejavu_dir.glob("*.ttf"))
@@ -116,12 +160,21 @@ def merge_all_fonts(output_dir: Optional[Path] = None) -> None:
         "DejaVuSans-Oblique.ttf": "RoboTvar-Italic.ttf",
         "DejaVuSans-BoldOblique.ttf": "RoboTvar-BoldItalic.ttf",
     }
+    showcase_variant_map = {
+        "DejaVuSans.ttf": "DejaVuTwemoji-Regular.ttf",
+        "DejaVuSans-Bold.ttf": "DejaVuTwemoji-Bold.ttf",
+        "DejaVuSans-Oblique.ttf": "DejaVuTwemoji-Italic.ttf",
+        "DejaVuSans-BoldOblique.ttf": "DejaVuTwemoji-BoldItalic.ttf",
+    }
 
     print(f"Merging {len(dejavu_fonts)} DejaVuSans variants with {emoji_font.name}")
 
     for dejavu_font in dejavu_fonts:
         variant_name = dejavu_font.name
-        output_name = variant_map.get(dejavu_font.name, f"RoboTvar-{dejavu_font.stem}.ttf")
+        if not showcase:
+            output_name = variant_map.get(dejavu_font.name, f"RoboTvar-{dejavu_font.stem}.ttf")
+        else:
+            output_name = showcase_variant_map.get(dejavu_font.name, f"DejaVuTwemoji-{dejavu_font.stem}.ttf")
         output_path = output_dir / output_name
 
         print(f"\n📦 Processing {variant_name} -> {output_name} ...")

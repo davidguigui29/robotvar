@@ -57,6 +57,12 @@ def parse_args():
         help="Custom output directory for merged fonts",
         default=Path(__file__).parent / "merged",
     )
+
+    parser.add_argument(
+        "--showcase",
+        action="store_true",
+        help="Showcase DejaVu fonts in the test app",
+    )
     parser.add_argument(
         "--delete",
         action="store_true",
@@ -88,11 +94,11 @@ def main():
         return
     
     exclusive_args = sum(
-        [args.download_only, args.merge_only, args.merge_twemoji, args.test_app, args.compare_fonts]
+        [args.download_only, args.merge_only, args.test_app, args.compare_fonts]
     )
     if exclusive_args > 1:
         print(
-            "Error: Can only specify one of: --download-only, --merge-only, --merge-twemoji, --test-app, --compare-fonts",
+            "Error: Can only specify one of: --download-only, --merge-only, --test-app, --compare-fonts",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -122,7 +128,7 @@ def main():
             if not args.download_only:
                 if args.merge_twemoji:
                     from .scripts.merge_dejavu_and_twemoji import merge_all_fonts as merge_twemoji_fonts
-                    merge_twemoji_fonts(output_dir=args.output_dir)
+                    merge_twemoji_fonts(showcase=args.showcase, output_dir=args.output_dir)
                 else:
                     from .scripts.merge import merge_all_fonts as merge_tossface_fonts
                     merge_tossface_fonts(output_dir=args.output_dir)
