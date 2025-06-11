@@ -8,38 +8,45 @@ import sys
 from pathlib import Path
 import traceback
 
-
-
-
-
 def parse_args():
     parser = argparse.ArgumentParser(
         description="Create RoboTvar fonts by merging Roboto with TossFace or Twemoji emoji fonts"
     )
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
         "--download-only",
         action="store_true",
         help="Only download the required fonts without merging",
     )
-    parser.add_argument(
+    group.add_argument(
         "--merge-only",
         action="store_true",
         help="Only merge existing fonts without downloading (default: TossFace emoji merge)",
     )
-    parser.add_argument(
+    group.add_argument(
         "--merge-twemoji",
         action="store_true",
         help="Merge Roboto with Twemoji emoji font instead of TossFace",
     )
-    parser.add_argument(
+    group.add_argument(
         "--test-app",
         action="store_true",
         help="Run Kivy test application to preview the fonts",
     )
-    parser.add_argument(
+    group.add_argument(
         "--compare-fonts",
         action="store_true",
         help="Compare character sets between two fonts",
+    )
+    group.add_argument(
+        "--delete",
+        action="store_true",
+        help="Delete the merged folder and exit",
+    )
+    group.add_argument(
+        "--delete-all",
+        action="store_true",
+        help="Delete all font folders in the fonts directory and exit",
     )
     parser.add_argument(
         "--font1",
@@ -57,21 +64,10 @@ def parse_args():
         help="Custom output directory for merged fonts",
         default=Path(__file__).parent / "merged",
     )
-
     parser.add_argument(
         "--showcase",
         action="store_true",
         help="Showcase DejaVu fonts in the test app",
-    )
-    parser.add_argument(
-        "--delete",
-        action="store_true",
-        help="Delete the merged folder and exit",
-    )
-    parser.add_argument(
-        "--delete-all",
-        action="store_true",
-        help="Delete all font folders in the fonts directory and exit",
     )
     return parser.parse_args()
 
@@ -92,13 +88,11 @@ def main():
             delete_merged_folder(args.output_dir)
             delete_all_fonts(fonts_dir)
         return
-    
-    exclusive_args = sum(
-        [args.download_only, args.merge_only, args.test_app, args.compare_fonts]
-    )
-    if exclusive_args > 1:
+
+    # --showcase only valid with --merge-twemoji
+    if args.showcase and not args.merge_twemoji:
         print(
-            "Error: Can only specify one of: --download-only, --merge-only, --test-app, --compare-fonts",
+            "Error: --showcase can only be used together with --merge-twemoji.",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -137,7 +131,6 @@ def main():
         print("Error occurred:")
         traceback.print_exc()
         sys.exit(1)
-
 
 
 if __name__ == "__main__":
